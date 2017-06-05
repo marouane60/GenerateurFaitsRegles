@@ -1,5 +1,9 @@
 package com.example.marouane.chajarati;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,18 +30,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("myTag", getFilesDir().getPath());
+        Log.d("myTag",Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getPath());
 
         // Test Serialisation ( enregistrer sur xml )
 
         ArrayList<Fait> r = new ArrayList<Fait>();
-        r.add(GRANDE);
+        Fait f = new Fait();
+        f.valeur = "type arbre";
+        r.add(f);
 
         Regle regle1 = new Regle();
-        regle1.sousbut=ARBRE;
+        regle1.sousbut=f;
         regle1.premisses=r;
 
-        File xmlFile = new File(getFilesDir().getPath() + "/Regle.xml");
+        File xmlFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getPath() + "/Regle.xml");
 
 
         try
@@ -65,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
             {
                 Serializer serializer = new Persister();
                 Regle regle2 = serializer.read(Regle.class, xmlFile);
-                Log.d("myTag",regle2.sousbut.toString());
+                Log.d("myTag",regle2.sousbut.valeur.toString());
+
+
             }
             catch (Exception e)
             {
@@ -97,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                             ArrayList<Fait> premisses = new ArrayList<Fait>(regle.premisses);
 
                             if(BaseFaits.containsAll(premisses)){
-                                if(but == sousbut){
+                                if(but.equals(sousbut)){
 
                                     System.out.println("succes , plante :"+ sousbut);
 
