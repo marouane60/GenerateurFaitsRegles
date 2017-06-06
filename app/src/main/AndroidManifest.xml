@@ -20,6 +20,17 @@
 
         </activity>
 
+
+        <activity android:name="NouveauFaitActivity">
+
+
+        </activity>
+        <activity android:name="NouvelleRegleActivity">
+
+
+        </activity>
     </application>
+
+
 
 </manifest>

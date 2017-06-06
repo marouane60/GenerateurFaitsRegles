@@ -7,11 +7,14 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import static com.example.marouane.chajarati.Fait.*;
@@ -19,18 +22,29 @@ import static com.example.marouane.chajarati.Fait.*;
 
 public class MainActivity extends AppCompatActivity {
 
+    ArrayList<Fait> StockFaits = new ArrayList<Fait>();
     ArrayList<Regle> BaseRegles = new ArrayList<Regle>();
     ArrayList<Fait> BaseFaits = new ArrayList<Fait>();
     ArrayList<Fait> Buts = new ArrayList<Fait>();
     ArrayList<Regle> StockRegles = new ArrayList<Regle>();
 
 
+    public void ActivityNF(View view) {
+        // Do something in response to button
+
+        Intent intent = new Intent(this, NouveauFaitActivity.class);
+
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("myTag",Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getPath());
+        // Boutton Nouveau Fait
+
+
 
         // Test Serialisation ( enregistrer sur xml )
 
@@ -38,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
         Fait f = new Fait();
         f.valeur = "type arbre";
         r.add(f);
+        r.add(f);
+
+        LesFaits L = new LesFaits();
+
+        L.Fait = r;
 
         Regle regle1 = new Regle();
         regle1.sousbut=f;
@@ -48,8 +67,15 @@ public class MainActivity extends AppCompatActivity {
 
         try
         {
+
+
+
             Serializer serializer = new Persister();
-            serializer.write(regle1, xmlFile);
+            serializer.write(L, xmlFile);
+
+
+
+
         }
         catch (Exception e)
         {
